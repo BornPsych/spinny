@@ -18,7 +18,7 @@ class BoxListView(generics.ListAPIView):
     queryset = Box.objects.all()
     serializer_class = BoxSerializer
 
-class UserView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Box.objects.filter(created_by=request.user)
-    serializer_class = UserSerializer
-    lookup_field = "Fi"
+# class UserView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Box.objects.filter(created_by=request.user)
+#     serializer_class = UserSerializer
+#     lookup_field = "Fi"
