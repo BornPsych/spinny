@@ -7,23 +7,23 @@ class User(AbstractUser):
 
 class Box(models.Model):
     length = models.FloatField(default=1)
-    breadth = models.FloatField()
-    height = models.FloatField()
+    breadth = models.FloatField(default=1)
+    height = models.FloatField(default=1)
     area = models.FloatField(null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def area(self):
+    def getArea(self):
         Box_area = self.length * self.breadth
-        self.area = Box_area
         return Box_area
 
-    def volume(self):
+    def getVolume(self):
         Box_volume =  self.length * self.breadth * self.height
-        self.volume = Box_volume
         return Box_volume
 
-    def save(self):
-        instance = super(Box, self).save()
+    def save(self, *args, **kwargs):
+        self.volume = self.getVolume()
+        self.area = self.getArea()
+        super(Box, self).save(*args, **kwargs)
