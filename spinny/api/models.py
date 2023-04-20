@@ -1,9 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 class User(AbstractUser):
-    pass
+    def save(self, *args, **kwargs):
+        if not self.pk or self._password != self.password:
+            self.set_password(self.password)
+
+        super().save(*args, **kwargs)
 
 class Box(models.Model):
     length = models.FloatField(default=1)
@@ -11,7 +14,7 @@ class Box(models.Model):
     height = models.FloatField(default=1)
     area = models.FloatField(null=True, blank=True)
     volume = models.FloatField(null=True, blank=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='boxes')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -24,6 +27,6 @@ class Box(models.Model):
         return Box_volume
 
     def save(self, *args, **kwargs):
-        self.volume = self.getVolume()
         self.area = self.getArea()
-        super(Box, self).save(*args, **kwargs)
+        self.volume = self.getVolume()
+        instance = super(Box, self).save(*args, **kwargs)
