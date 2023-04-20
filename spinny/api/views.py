@@ -44,8 +44,14 @@ class createBoxView(generics.CreateAPIView):
         else:
             return Response({'error': 'not a staff user'}, status=status.HTTP_401_UNAUTHORIZED)
 
-class BoxView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+class BoxUpdate(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    queryset = Box.objects.all()
+    serializer_class = BoxSerializer
+    lookup_field = "pk"
+
+class BoxDestroyView(generics.DestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser, IsOwnerOrReadOnly]
     queryset = Box.objects.all()
     serializer_class = BoxSerializer
     lookup_field = "pk"
