@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
 class User(AbstractUser):
     def save(self, *args, **kwargs):
         if not self.pk or self._password != self.password:

@@ -84,11 +84,12 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = "api.User"
+
 DATA_MANUPLATION_LIMITS = {
-    'A1':'1000',
-    'V1':'1000',
-    'L1':'100',
-    'L2':'50'
+    'A1':1000,
+    'V1':100,
+    'L1':100,
+    'L2':50
 }
 
 # Password validation

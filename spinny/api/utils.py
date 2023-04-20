@@ -1,27 +1,26 @@
 from .models import User, Box
 from django.conf import settings
-from django.db.models import Avg
-from .models import User
+from django.db.models import Sum
+import datetime
+# def AverageArea():
+#     average_area = Box.objects.aggregate(Avg("area"))
+#     if average_area < settings.DATA_MANUPLATION_LIMITS['A1']:
+#         return True
+#     else:
+#         return False
 
-def AverageArea():
-    average_area = Box.objects.aggregate(Avg("area"))
-    if average_area < settings.DATA_MANUPLATION_LIMITS['A1']:
-        return True
-    else:
-        return False
+# def AverageVolumeForUser(userId):
+#     user = User.objects.get(id=userId)
+#     qs = Box.objects.filter(created_by=user)
+#     average_area = queryset.aggregate(Avg("volume"))
+#     if average_area < settings.DATA_MANUPLATION_LIMITS['V1']:
+#         return True
+#     else:
+#         return False
 
-def AverageVolumeForUser(userId):
-    user = User.objects.get(id=userId)
-    qs = Box.objects.filter(created_by=user)
-    average_area = queryset.aggregate(Avg("volume"))
-    if average_area < settings.DATA_MANUPLATION_LIMITS['V1']:
-        return True
-    else:
-        return False
-
-def manuallyValidate(area, volume):
-        request = self.context['request']
-        user = request.user
+def manuallyValidate(userInfo, area, volume):
+        # request = self.context['request']
+        user = userInfo
         d = datetime.datetime.today()
         sunday_offset = (d.weekday() - 6) % 7
         sunday = d - datetime.timedelta(days = sunday_offset)

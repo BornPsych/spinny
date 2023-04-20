@@ -33,14 +33,14 @@ class createBoxView(generics.CreateAPIView):
             l, b, h = serializer.validated_data['length'], serializer.validated_data['breadth'], serializer.validated_data['height']
             area = l*b
             volume = l*b*h
-            flag, message = manuallyValidate(area, volume)
+            flag, message = manuallyValidate(request.user, area, volume)
             if flag:
                 serializer.validated_data['created_by'] = request.user
                 serializer.save()
                 headers = self.get_success_headers(serializer.data)
                 return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
             else:
-                Response({'error': message}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({'error': message}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({'error': 'not a staff user'}, status=status.HTTP_401_UNAUTHORIZED)
 
